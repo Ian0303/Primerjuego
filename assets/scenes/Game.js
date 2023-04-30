@@ -1,5 +1,5 @@
 import {SHAPES} from '../../utils.js';
-const{TRIANGLE, SQUARE, DIAMOND} = SHAPES;
+const{TRIANGLE, SQUARE, DIAMOND, REDTRIANGLE} = SHAPES;
 export default class Game extends Phaser.Scene{
     score;
     constructor(){
@@ -12,6 +12,7 @@ export default class Game extends Phaser.Scene{
             [TRIANGLE]: {count: 0, score: 10},
             [SQUARE]: {count: 0, score: 20},
             [DIAMOND]: {count: 0, score: 30},
+            [REDTRIANGLE]: {count: 0, score: -50,}
 
         };
         console.log(this.shapesRecolected)
@@ -25,6 +26,7 @@ export default class Game extends Phaser.Scene{
         this.load.image(DIAMOND, "./assets/images/Diamond.png");
         this.load.image(TRIANGLE, "./assets/images/Triangle.png");
         this.load.image("moon", "./assets/images/moon4.png");
+        this.load.image(REDTRIANGLE, "./assets/images/redTriangle.png");
 
 
 
@@ -107,7 +109,7 @@ export default class Game extends Phaser.Scene{
 
     addShape() {
     //get random shape
-    const randomShape = Phaser.Math.RND.pick([DIAMOND, SQUARE, TRIANGLE]);
+    const randomShape = Phaser.Math.RND.pick([DIAMOND, SQUARE, TRIANGLE, REDTRIANGLE]);
 
     //get random position x
     const randomX = Phaser.Math.RND.between(0, 800);
