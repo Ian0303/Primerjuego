@@ -3,11 +3,12 @@ const{TRIANGLE, SQUARE, DIAMOND, REDTRIANGLE} = SHAPES;
 export default class Game extends Phaser.Scene{
     score;
     constructor(){
-        super('game');
+        super('Game');
 
     }
 
     init(){
+        this.gameOver= false
         this.shapesRecolected = {
             [TRIANGLE]: {count: 0, score: 10},
             [SQUARE]: {count: 0, score: 20},
@@ -41,6 +42,10 @@ export default class Game extends Phaser.Scene{
         //add static platforms group
         let platforms = this.physics.add.staticGroup();
         platforms.create(400, 568, "ground").setScale(2).refreshBody();
+        
+        platforms.create(-100, 400, "ground").setScale(1).refreshBody();
+        platforms.create(900, 400, "ground").setScale(1).refreshBody();
+
 
         //
         this.shapesGroup = this.physics.add.group();
@@ -54,7 +59,14 @@ export default class Game extends Phaser.Scene{
             callback: this.addShape,
             callbackScope: this,
             loop: true,
-        })
+        });
+
+        this.time.addEvent({
+            delay: 1000,
+            callback: this.onSecond,
+            callbackScope: this,
+            loop: true,
+        });
 
         //
         //
@@ -78,6 +90,14 @@ export default class Game extends Phaser.Scene{
             this
         );
 
+        this.physics.add.overlap(
+            this.shapesGroup,
+            this.platforms,
+            this.reduce,
+            null,
+            this
+        )
+
         //add score on scene
             this.score = 0;
             this.scoreText = this.add.text(20, 20, "Score:" + this.score, {
@@ -85,10 +105,24 @@ export default class Game extends Phaser.Scene{
                 fontStyle: "bold",
                 fill: "#ffffff",
             });
-
+            //add timer
+            this.timer = 60
+            this.timerText = this.add.text(750, 20, this.timer, {
+                fontSize: "32px",
+                fontStyle: "bold",
+                fill: "#000",
+            });
     }
 
     update(){
+
+        if (this.score>=200) {
+            this.scene.start("Win")
+        }
+
+        if (this.gameOver ) {
+            this.scene.start("GameOver")
+        }
 
         //movement player
         if (this.cursors.left.isDown) {
@@ -115,7 +149,8 @@ export default class Game extends Phaser.Scene{
     const randomX = Phaser.Math.RND.between(0, 800);
 
     //add shape to screen
-    this.shapesGroup.create(randomX, 0, randomShape).setCircle(25, 7, 7);;
+    this.shapesGroup.create(randomX, 0, randomShape).setCircle(25, 7, 7).setBounce(0,1
+        );;
     console.log("shape is added", randomX, randomShape);
 
     }
@@ -133,6 +168,15 @@ export default class Game extends Phaser.Scene{
         console.log(this.shapesRecolected);
 
     }
+onSecond(){
+    this.timer--;
+    this.timerText.setText(this.timer);
+    if (this.timer <= 0 ) {
+        this.gameOver = true;
+    }
+}
 
+    reduce() {
 
+    }
 }
