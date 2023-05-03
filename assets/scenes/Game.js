@@ -149,8 +149,14 @@ export default class Game extends Phaser.Scene{
     const randomX = Phaser.Math.RND.between(0, 800);
 
     //add shape to screen
-    this.shapesGroup.create(randomX, 0, randomShape).setCircle(25, 7, 7).setBounce(0,1
-        );;
+    if (randomShape===REDTRIANGLE) {
+        this.shapesGroup.create(randomX, 0, randomShape).setCircle(25, 7, 7).setBounce(0,1
+            ).setScale(0.40, 0.40);;
+    }else{
+        this.shapesGroup.create(randomX, 0, randomShape).setCircle(25, 7, 7).setBounce(0,1
+            );;
+    }
+    
     console.log("shape is added", randomX, randomShape);
 
     }
