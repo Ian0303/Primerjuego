@@ -1,5 +1,5 @@
-# Phaser 3 Template
+# Ninja moncho
 
-Plantilla para iniciar nuevos proyectos con PHASER 3.
+Recoje las figuras rosadas y evita las rojas.
 
-Contiene configuración inicial y buenas prácticas de estructuras de carpetas.
+Llega a los 200 puntos antes que se acabe el tiempo.
